@@ -1,5 +1,7 @@
-import Player from "../src/player.js";
+import players from "../src/player.js";
 
-test("Player exists", () => {
-    expect(Player).toBeDefined();
+test("there are 2 players, real and computer", () => {
+    expect(Object.keys(players)).toHaveLength(2);
+    expect(players.real).toBeDefined();
+    expect(players.computer).toBeDefined();
 });
