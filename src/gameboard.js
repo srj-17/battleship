@@ -10,6 +10,16 @@ class Gameboard {
         // initialize array with 10 arrays, false can be replaced with anything
         for (let i = 0; i < this.size; i++)
             this.gameboard = this.gameboard.concat([[false]]);
+        this.#reconstructGameBoard();
+
+        // initialize tracking grid
+        this.trackingGrid = [];
+        for (let x = 0; x < this.size; x++) {
+            this.trackingGrid[x] = [];
+            for (let y = 0; y < this.size; y++) {
+                this.trackingGrid[x].push(false);
+            }
+        }
 
         // ships and their coordinates
         this.ships = {
@@ -74,6 +84,11 @@ class Gameboard {
         }
     }
 
+    #trackHit(coordinate) {
+        const [xCoordinate, yCoordinate] = coordinate;
+        this.trackingGrid[xCoordinate][yCoordinate] = true;
+    }
+
     placeShip(ship, startCoordinates, orientation = "horizontal") {
         const startXCoordinate = startCoordinates[0];
         const startYCoordinate = startCoordinates[1];
@@ -125,13 +140,30 @@ class Gameboard {
     }
 
     receiveAttack(coordinate) {
-        // if attack hits the ship,
+        // record the coordinates irrespective of if they hit ship or not
+        // missed-shot = tracking-grid(i, j) x gameboard(i, j)
+        // track the hit in your board
+        this.#trackHit(coordinate);
+
         const [xCoordinate, yCoordinate] = coordinate;
-        console.log(this.gameboard[xCoordinate][yCoordinate]);
-        if (this.gameboard[xCoordinate][yCoordinate] === false) return false;
-        else return true;
+        const ship = this.gameboard[xCoordinate][yCoordinate];
+
+        // if attack doesn't hit the ship
+        if (ship === false) {
+            return false;
+        }
+
+        // if attack hits the ship,
         // send the hit function to the correct ship
-        // record the coordinates
+        this.ships[ship].hit();
+        return true;
+    }
+
+    areAllShipsSunk() {
+        for (const ship in this.ships)
+            if (!this.ships[ship].isSunk()) return false;
+
+        return true;
     }
 }
 

@@ -35,7 +35,7 @@ test("Ships place vertically if specified needed", () => {
     expect(gameboard.getOrientation("battleship")).toEqual("vertical");
 });
 
-test.only("receiveAttack function works", () => {
+test("receiveAttack function works", () => {
     const gameboard = new Gameboard();
 
     expect(gameboard.receiveAttack([2, 2])).toBe(false);
@@ -46,4 +46,23 @@ test("receiveAttack attacks the ship if there's a ship in given position", () =>
     gameboard.placeShip("battleship", [4, 4], "vertical");
 
     expect(gameboard.receiveAttack([4, 5])).toBe(true);
+    expect(gameboard.ships["battleship"].hits).toBe(1);
+});
+
+test("Track the attacks", () => {
+    const gameboard = new Gameboard();
+    gameboard.placeShip("battleship", [4, 4], "vertical");
+    gameboard.receiveAttack([4, 5]);
+    gameboard.receiveAttack([3, 3]);
+
+    expect(gameboard.trackingGrid[4][5]).toBe(true);
+    expect(gameboard.trackingGrid[3][3]).toBe(true);
+    expect(gameboard.trackingGrid[3][4]).toBe(false);
+});
+
+test("shows all ships are sunk when all of them are sunk", () => {
+    const gameboard = new Gameboard();
+    for (const ship in gameboard.ships) gameboard.ships[ship].sunk = true;
+
+    expect(gameboard.areAllShipsSunk()).toBe(true);
 });
