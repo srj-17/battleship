@@ -10,7 +10,7 @@ test("Ships can be placed on the board by specifying start coordinates", () => {
 
     expect(gameboard.getCoordinates("battleship")).toEqual({
         startCoordinates: [4, 4],
-        endCoordinates: [8, 4],
+        endCoordinates: [7, 4],
     });
     expect(gameboard.getOrientation("battleship")).toEqual("horizontal");
 });
@@ -30,7 +30,7 @@ test("Ships place vertically if specified needed", () => {
 
     expect(gameboard.getCoordinates("battleship")).toEqual({
         startCoordinates: [4, 4],
-        endCoordinates: [4, 8],
+        endCoordinates: [4, 7],
     });
     expect(gameboard.getOrientation("battleship")).toEqual("vertical");
 });
@@ -65,4 +65,24 @@ test("shows all ships are sunk when all of them are sunk", () => {
     for (const ship in gameboard.ships) gameboard.ships[ship].sunk = true;
 
     expect(gameboard.areAllShipsSunk()).toBe(true);
+});
+
+test("Only place ships if the positions are clear", () => {
+    const gameboard = new Gameboard();
+    gameboard.placeShip("cruiser", [1, 1]);
+    gameboard.placeShip("battleship", [2, 1]);
+    expect(gameboard.gameboard[2][1]).toBe("cruiser");
+    expect(gameboard.gameboard[1][1]).toBe("cruiser");
+    expect(gameboard.gameboard[3][1]).toBe("cruiser");
+    expect(gameboard.gameboard[4][1]).toBe(false);
+});
+
+test("Only place ships if the positions are clear vertically", () => {
+    const gameboard = new Gameboard();
+    gameboard.placeShip("cruiser", [1, 1], "vertical");
+    gameboard.placeShip("battleship", [1, 2], "vertical");
+    expect(gameboard.gameboard[1][2]).toBe("cruiser");
+    expect(gameboard.gameboard[1][1]).toBe("cruiser");
+    expect(gameboard.gameboard[1][3]).toBe("cruiser");
+    expect(gameboard.gameboard[1][4]).toBe(false);
 });

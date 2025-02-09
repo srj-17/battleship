@@ -95,10 +95,17 @@ class Gameboard {
         if (orientation === "horizontal") {
             const shipLength = this.ships[ship].length;
             if (startXCoordinate + shipLength < this.size) {
+                // check if there's already a ship in those coordinates
+                // if yes, return
+                for (let i = startXCoordinate; i <= shipLength; i++) {
+                    if (this.gameboard[i][startYCoordinate] !== false) return;
+                }
+
                 this.ships[ship].coordinates = {
                     startCoordinates,
                     endCoordinates: [
-                        startXCoordinate + shipLength,
+                        // -1 because startXCoordinate covers 1 length
+                        startXCoordinate + shipLength - 1,
                         startYCoordinate,
                     ],
                 };
@@ -109,12 +116,16 @@ class Gameboard {
                 );
         } else {
             const shipLength = this.ships[ship].length;
-            if (startYCoordinate + shipLength < this.size) {
+            if (startYCoordinate + shipLength - 1 < this.size) {
+                for (let i = startXCoordinate; i < shipLength; i++) {
+                    if (this.gameboard[startXCoordinate][i] !== false) return;
+                }
+
                 this.ships[ship].coordinates = {
                     startCoordinates,
                     endCoordinates: [
                         startXCoordinate,
-                        startYCoordinate + shipLength,
+                        startYCoordinate + shipLength - 1,
                     ],
                 };
                 this.ships[ship].orientation = "vertical";
