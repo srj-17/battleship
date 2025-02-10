@@ -2,3 +2,72 @@
     padding: 0;
     margin: 0;
 }
+
+:root {
+    --gameboard-size: 30px;
+    --gameboard-cell-bg: #2059ff;
+    --bg: #3a5a40;
+}
+
+body {
+    background: var(--bg);
+    padding: 10px 40px;
+}
+
+.container {
+    display: grid;
+    place-items: center;
+    gap: 10px;
+    font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Oxygen,
+        Ubuntu,
+        Cantarell,
+        "Open Sans",
+        "Helvetica Neue",
+        sans-serif;
+    font-weight: bold;
+    color: #dad7cd;
+}
+
+.header {
+    text-align: center;
+    font-size: 2rem;
+}
+
+.gameboard-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    place-content: center;
+    gap: 16px;
+}
+
+.player-one-gameboard-container,
+.player-two-gameboard-container {
+    display: grid;
+    gap: 10px;
+    place-content: center;
+}
+
+.player-one-gameboard-header,
+.player-two-gameboard-header {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.gameboard {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(10, var(--gameboard-size));
+    grid-template-rows: repeat(10, var(--gameboard-size));
+    gap: 2px;
+}
+
+.cell {
+    background-color: var(--gameboard-cell-bg);
+}
