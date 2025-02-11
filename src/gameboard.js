@@ -115,6 +115,7 @@ class Gameboard {
                     "Can't fit ship in the board with given start coordinates",
                 );
         } else {
+            // orientation vertical
             const shipLength = this.ships[ship].length;
             if (startYCoordinate + shipLength - 1 < this.size) {
                 for (let i = startXCoordinate; i < shipLength; i++) {

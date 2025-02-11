@@ -1,4 +1,6 @@
 import "./domController.js";
+import players from "./player.js";
+
 const body = document.querySelector("body");
 
 // make gameboard in the dom
@@ -27,13 +29,18 @@ playerOneGameboard.classList.toggle("gameboard");
 playerOneGameboardContainer.appendChild(playerOneGameboard);
 
 // make a 10x10 grid in gameboard for placing ships
-// for player 1
+// for player 1 (real)
 const SIZE = 10;
 for (let i = 0; i < SIZE; i++) {
     for (let j = 0; j < SIZE; j++) {
         const cell = document.createElement("div");
         cell.classList.toggle("cell");
         playerOneGameboard.appendChild(cell);
+
+        // different color if that particular cell of gameboard has ship
+        if (players.real.gameboard.gameboard[i][j]) {
+            cell.style.backgroundColor = "black";
+        }
     }
 }
 
@@ -55,6 +62,10 @@ for (let i = 0; i < SIZE; i++) {
         const cell = document.createElement("div");
         cell.classList.toggle("cell");
         playerTwoGameboard.appendChild(cell);
+
+        if (players.computer.gameboard.gameboard[i][j]) {
+            cell.style.backgroundColor = "black";
+        }
     }
 }
 
