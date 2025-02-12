@@ -1,5 +1,6 @@
 import players from "./player.js";
 import { changeTurn, getTurn } from "./player.js";
+import computerLogic from "./computerLogic.js";
 
 const playerOne = players.real;
 const playerTwo = players.computer;
@@ -61,7 +62,11 @@ function renderGameBoard(playerId, gameboard, node) {
             if (gameboard.trackingGrid[i][j]) cell.classList.toggle("hit");
 
             cell.addEventListener("click", () => {
-                if (gameboard.gameboard[i][j] && getTurn() !== playerId) {
+                if (
+                    gameboard.gameboard[i][j] &&
+                    getTurn() !== playerId &&
+                    !gameboard.trackingGrid[i][j]
+                ) {
                     gameboard.receiveAttack([i, j]);
                 }
                 changeTurn();
@@ -129,6 +134,19 @@ gameboardContainer.addEventListener("click", (event) => {
     if (event.target.classList.contains("cell")) {
         renderBoards();
         changeTurnRender();
+    }
+
+    // computer makes a move immediately after the human move
+    // playerTwo = computer
+    // playerOne = real
+    // when player two gets attacked, it attacks player one
+    if (
+        event.target.closest(".player-two-gameboard") &&
+        event.target.classList.contains("cell")
+    ) {
+        computerLogic.attack(playerOne);
+        changeTurn();
+        renderBoards();
     }
 });
 
