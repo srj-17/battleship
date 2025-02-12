@@ -7,15 +7,6 @@ class Player {
     }
 }
 
-// turn variable to keep track of which player's turn it is
-let turn = 1;
-function changeTurn() {
-    if (turn === 1) turn = 2;
-    else turn = 1;
-}
-
-const getTurn = () => turn;
-
 const realPlayer = new Player("real");
 realPlayer.gameboard.placeShip("carrier", [0, 0]);
 realPlayer.gameboard.placeShip("battleship", [9, 2], "vertical");
@@ -34,5 +25,3 @@ export default {
     real: realPlayer,
     computer: computer,
 };
-
-export { changeTurn, getTurn };

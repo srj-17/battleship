@@ -18,7 +18,4 @@ function attack(player) {
     player.gameboard.receiveAttack(randomCoordinate);
 }
 
-export default {
-    attack,
-    getAttackCoordinates,
-};
+export { attack };

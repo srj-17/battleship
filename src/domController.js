@@ -1,12 +1,6 @@
-import players from "./player.js";
-import { changeTurn, getTurn } from "./player.js";
-import computerLogic from "./computerLogic.js";
-
-const playerOne = players.real;
-const playerTwo = players.computer;
-
-const playerOneId = 1;
-const playerTwoId = 2;
+import { changeTurn, getTurn } from "./driver.js";
+import { playerOne, playerTwo, playerOneId, playerTwoId } from "./driver.js";
+import { attack as computerAttack } from "./driver.js";
 
 const body = document.querySelector("body");
 
@@ -144,7 +138,7 @@ gameboardContainer.addEventListener("click", (event) => {
         event.target.closest(".player-two-gameboard") &&
         event.target.classList.contains("cell")
     ) {
-        computerLogic.attack(playerOne);
+        computerAttack(playerOne);
         changeTurn();
         renderBoards();
     }
