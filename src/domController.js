@@ -1,4 +1,11 @@
 import players from "./player.js";
+import { changeTurn, getTurn } from "./player.js";
+
+const playerOne = players.real;
+const playerTwo = players.computer;
+
+const playerOneId = 1;
+const playerTwoId = 2;
 
 const body = document.querySelector("body");
 
@@ -33,8 +40,8 @@ playerTwoGameboardContainer.appendChild(playerTwoGameboardHeader);
 
 // make a 10x10 grid in gameboard for placing ships
 // for player 1 (real)
-// input: gameboard 2d array and the node to render under
-function renderGameBoard(gameboard, node) {
+// input: gameboard object and the node to render under
+function renderGameBoard(playerId, gameboard, node) {
     const SIZE = 10;
     for (let i = 0; i < SIZE; i++) {
         for (let j = 0; j < SIZE; j++) {
@@ -42,10 +49,23 @@ function renderGameBoard(gameboard, node) {
             cell.classList.toggle("cell");
             node.appendChild(cell);
 
-            // different color if that particular cell of gameboard has ship
-            if (gameboard[i][j]) {
-                cell.style.backgroundColor = "black";
-            }
+            // maybe redundant
+            cell.classList.remove("occupied");
+            cell.classList.remove("hit");
+
+            // only if the gameboard is not occupied at (i, j),
+            // gameboard[i][j] will be false,
+            if (gameboard.gameboard[i][j]) cell.classList.toggle("occupied");
+
+            // if the cell is hit, trackboard[i][j] is true
+            if (gameboard.trackingGrid[i][j]) cell.classList.toggle("hit");
+
+            cell.addEventListener("click", () => {
+                if (gameboard.gameboard[i][j] && getTurn() !== playerId) {
+                    gameboard.receiveAttack([i, j]);
+                }
+                changeTurn();
+            });
         }
     }
 }
@@ -78,14 +98,39 @@ function renderBoards() {
     playerTwoGameboardContainer.appendChild(playerTwoGameboard);
 
     // render real player's gameboard under the playerOneGameboard node
-    renderGameBoard(players.real.gameboard.gameboard, playerOneGameboard);
+    renderGameBoard(playerOneId, playerOne.gameboard, playerOneGameboard);
 
-    renderGameBoard(players.computer.gameboard.gameboard, playerTwoGameboard);
+    renderGameBoard(playerTwoId, playerTwo.gameboard, playerTwoGameboard);
+
+    // add the turn class to gameboard who's current turn it is
+    if (getTurn() === playerOneId) {
+        playerTwoGameboard.classList.add("turn-to-receive-attack");
+        playerOneGameboard.classList.remove("turn-to-receive-attack");
+    } else {
+        playerOneGameboard.classList.add("turn-to-receive-attack");
+        playerTwoGameboard.classList.remove("turn-to-receive-attack");
+    }
+}
+
+// show whose turn it is
+const turnContainer = document.createElement("div");
+turnContainer.classList.toggle("turn-container");
+turnContainer.textContent = `Turn: Player-${getTurn()}`;
+container.appendChild(turnContainer);
+
+function changeTurnRender() {
+    turnContainer.textContent = `Turn: Player-${getTurn()}`;
 }
 
 container.appendChild(gameboardContainer);
 
-renderBoards();
+// event listeners
+gameboardContainer.addEventListener("click", (event) => {
+    if (event.target.classList.contains("cell")) {
+        renderBoards();
+        changeTurnRender();
+    }
+});
 
 export default {
     renderBoards,

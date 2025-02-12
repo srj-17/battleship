@@ -6,6 +6,7 @@
 :root {
     --gameboard-size: 30px;
     --gameboard-cell-bg: #2059ff;
+    --gameboard-cell-hover-lightness: 70;
     --bg: #3a5a40;
 }
 
@@ -71,4 +72,27 @@ body {
 
 .cell {
     background-color: var(--gameboard-cell-bg);
+}
+
+.turn-to-receive-attack .cell:hover {
+    background-color: hsl(
+        from var(--gameboard-cell-bg) h s var(--gameboard-cell-hover-lightness)
+    );
+}
+
+.turn-to-receive-attack .cell:active {
+    background-color: hsl(from var(--gameboard-cell-bg) 20 s l);
+}
+
+/*use these only when you have to show the ships, maybe at the end of the game*/
+/*.cell.occupied {*/
+/*    background-color: #222;*/
+/*}*/
+/**/
+/*.cell.occupied:hover {*/
+/*    background-color: hsl(from red h s var(--gameboard-cell-hover-lightness));*/
+/*}*/
+
+.cell.occupied.hit {
+    background: #ff0000;
 }

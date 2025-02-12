@@ -177,6 +177,14 @@ class Gameboard {
 
         return true;
     }
+
+    getTrackingGrid() {
+        return this.trackingGrid;
+    }
+
+    getGameBoard() {
+        return this.gameboard;
+    }
 }
 
 export default Gameboard;
