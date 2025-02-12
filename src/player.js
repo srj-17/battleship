@@ -30,8 +30,6 @@ computer.gameboard.placeShip("cruiser", [1, 3]);
 computer.gameboard.placeShip("submarine", [7, 0], "vertical");
 computer.gameboard.placeShip("destroyer", [9, 8], "vertical");
 
-realPlayer.gameboard.receiveAttack([0, 0]);
-
 export default {
     real: realPlayer,
     computer: computer,
