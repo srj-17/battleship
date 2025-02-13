@@ -5,6 +5,7 @@
 
 :root {
     --gameboard-size: 30px;
+    --gameboard-gap: 2px;
     --gameboard-cell-bg: #2059ff;
     --gameboard-cell-hover-lightness: 70;
     --bg: #3a5a40;
@@ -56,15 +57,38 @@ body {
 .player-one-gameboard-container,
 .player-two-gameboard-container {
     display: grid;
-    gap: 10px;
+    gap: 5px;
     place-content: center;
+    grid-template-areas:
+        "gh gh"
+        ". hc"
+        "vc gb";
 }
 
 .player-one-gameboard-header,
 .player-two-gameboard-header {
-    font-weight: bold;
     font-size: 1.5rem;
     text-align: center;
+}
+
+.gameboard-header {
+    grid-area: gh;
+}
+
+.horizontal-coordinates {
+    display: grid;
+    grid-template-columns: repeat(10, var(--gameboard-size));
+    grid-template-rows: var(--gameboard-size);
+    gap: var(--gameboard-gap);
+    text-align: center;
+    grid-area: hc;
+}
+
+.vertical-coordinates {
+    display: grid;
+    grid-template-rows: repeat(10, var(--gameboard-size));
+    gap: var(--gameboard-gap);
+    grid-area: vc;
 }
 
 .gameboard {
@@ -72,7 +96,8 @@ body {
     grid-auto-flow: column;
     grid-template-columns: repeat(10, var(--gameboard-size));
     grid-template-rows: repeat(10, var(--gameboard-size));
-    gap: 2px;
+    gap: var(--gameboard-gap);
+    grid-area: gb;
 }
 
 .cell {

@@ -23,6 +23,7 @@ playerOneGameboardContainer.classList.toggle("player-one-gameboard-container");
 gameboardContainer.appendChild(playerOneGameboardContainer);
 const playerOneGameboardHeader = document.createElement("div");
 playerOneGameboardHeader.classList.toggle("player-one-gameboard-header");
+playerOneGameboardHeader.classList.toggle("gameboard-header");
 playerOneGameboardHeader.textContent = "Player 1";
 playerOneGameboardContainer.appendChild(playerOneGameboardHeader);
 
@@ -31,14 +32,67 @@ playerTwoGameboardContainer.classList.toggle("player-two-gameboard-container");
 gameboardContainer.appendChild(playerTwoGameboardContainer);
 const playerTwoGameboardHeader = document.createElement("div");
 playerTwoGameboardHeader.classList.toggle("player-two-gameboard-header");
+playerTwoGameboardHeader.classList.toggle("gameboard-header");
 playerTwoGameboardHeader.textContent = "Player 2";
 playerTwoGameboardContainer.appendChild(playerTwoGameboardHeader);
+
+function renderCoordinates(nodes) {
+    nodes.forEach((node) => {
+        const hCoordinatesList = [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G",
+            "H",
+            "I",
+            "J",
+        ];
+        const horizontalCoordinates = document.createElement("div");
+        horizontalCoordinates.classList.toggle("horizontal-coordinates");
+        hCoordinatesList.forEach((coordinate) => {
+            const hCoordinate = document.createElement("div");
+            hCoordinate.classList.toggle("h-coordinate");
+            hCoordinate.classList.toggle("coordinate");
+            hCoordinate.textContent = `${coordinate}`;
+            horizontalCoordinates.appendChild(hCoordinate);
+        });
+
+        const vCoordinatesList = [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+        ];
+        const verticalCoordinates = document.createElement("div");
+        verticalCoordinates.classList.toggle("vertical-coordinates");
+        vCoordinatesList.forEach((coordinate) => {
+            const vCoordinate = document.createElement("div");
+            vCoordinate.classList.toggle("v-coordinate");
+            vCoordinate.classList.toggle("coordinate");
+            vCoordinate.textContent = `${coordinate}`;
+            verticalCoordinates.appendChild(vCoordinate);
+        });
+
+        node.appendChild(horizontalCoordinates);
+        node.appendChild(verticalCoordinates);
+    });
+}
 
 // make a 10x10 grid in gameboard for placing ships
 // for player 1 (real)
 // input: gameboard object and the node to render under
 function renderGameBoard(playerId, gameboard, node) {
     const SIZE = 10;
+
     for (let i = 0; i < SIZE; i++) {
         for (let j = 0; j < SIZE; j++) {
             const cell = document.createElement("div");
@@ -93,6 +147,13 @@ function renderBoards() {
     playerTwoGameboard.classList.toggle("player-two-gameboard");
     playerTwoGameboard.classList.toggle("gameboard");
     playerTwoGameboardContainer.appendChild(playerTwoGameboard);
+
+    // render horizontal and vertical coordinates under the given list of nodes,
+    // how they'll be placed will be determined by css
+    renderCoordinates([
+        playerOneGameboardContainer,
+        playerTwoGameboardContainer,
+    ]);
 
     // render real player's gameboard under the playerOneGameboard node
     renderGameBoard(playerOneId, playerOne.gameboard, playerOneGameboard);
