@@ -115,10 +115,10 @@ body {
 }
 
 /*use these only when you have to show the ships, maybe at the end of the game*/
-/*.cell.occupied {*/
-/*    background-color: #222;*/
-/*}*/
-/**/
+.player-one-gameboard-container .cell.occupied {
+    background-color: #222;
+}
+
 /*.cell.occupied:hover {*/
 /*    background-color: hsl(from red h s var(--gameboard-cell-hover-lightness));*/
 /*}*/

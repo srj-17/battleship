@@ -8,6 +8,7 @@ const playerOneId = 1;
 const playerTwoId = 2;
 
 // turn variable to keep track of which player's turn it is
+// by default, it's real player's (player 1's) turn
 let turn = 1;
 function changeTurn() {
     if (turn === 1) turn = 2;
