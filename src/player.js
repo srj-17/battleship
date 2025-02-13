@@ -25,3 +25,5 @@ export default {
     real: realPlayer,
     computer: computer,
 };
+
+export { Player };

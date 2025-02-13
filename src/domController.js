@@ -1,6 +1,7 @@
 import { changeTurn, getTurn } from "./driver.js";
 import { playerOne, playerTwo, playerOneId, playerTwoId } from "./driver.js";
 import { attack as computerAttack } from "./driver.js";
+import { getWinner } from "./driver.js";
 
 const body = document.querySelector("body");
 
@@ -59,7 +60,7 @@ function renderGameBoard(playerId, gameboard, node) {
                 if (getTurn() !== playerId && !gameboard.trackingGrid[i][j]) {
                     gameboard.receiveAttack([i, j]);
                     changeTurn();
-                    console.log("from cell", getTurn());
+                    getWinner();
                 }
             });
         }
