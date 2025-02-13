@@ -20,5 +20,5 @@ test("getWinner returns the winner if there's winner", () => {
     playerOneMock.gameboard.placeShip("destroyer", [6, 7], "vertical");
     console.log(playerOneMock.gameboard.trackingGrid);
 
-    expect(getWinner(playerOneMock)).toEqual(1);
+    expect(getWinner(playerOneMock)).toEqual(2);
 });

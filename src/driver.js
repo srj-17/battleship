@@ -16,7 +16,8 @@ function changeTurn() {
 
 const getTurn = () => turn;
 
-function isPlayerWinner(player) {
+// if all ships of the player has been busted, he is the loser
+function isPlayerLoser(player) {
     const SIZE = player.gameboard.getGameBoard().length;
     const gameboard = player.gameboard.getGameBoard();
     const trackingGrid = player.gameboard.trackingGrid;
@@ -31,15 +32,14 @@ function isPlayerWinner(player) {
         }
     }
 
-    console.log(`winner is: ${player}`);
     return true;
 }
 
 // returns false if there's no winner, winner player id if there is
 // named parameters just for making the function pure (testing purposes)
 function getWinner(playerOne = players.real, playerTwo = players.computer) {
-    if (isPlayerWinner(playerOne)) return playerOneId;
-    if (isPlayerWinner(playerTwo)) return playerTwoId;
+    if (isPlayerLoser(playerOne)) return playerTwoId;
+    if (isPlayerLoser(playerTwo)) return playerOneId;
     return false;
 }
 
