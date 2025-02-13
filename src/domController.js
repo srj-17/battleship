@@ -60,7 +60,7 @@ function renderGameBoard(playerId, gameboard, node) {
                 if (getTurn() !== playerId && !gameboard.trackingGrid[i][j]) {
                     gameboard.receiveAttack([i, j]);
                     changeTurn();
-                    getWinner();
+                    renderWinner();
                 }
             });
         }
@@ -119,6 +119,35 @@ function changeTurnRender() {
     turnContainer.textContent = `Turn: Player-${getTurn()}`;
 }
 
+const winnerContainerDialog = document.createElement("dialog");
+winnerContainerDialog.classList.toggle("winner-container-dialog");
+body.appendChild(winnerContainerDialog);
+const winnerContainer = document.createElement("div");
+winnerContainer.classList.toggle("winner-container");
+winnerContainerDialog.appendChild(winnerContainer);
+const winnerText = document.createElement("div");
+winnerText.classList.toggle("winner-text");
+winnerContainer.appendChild(winnerText);
+const buttonsContainer = document.createElement("div");
+buttonsContainer.classList.toggle("dialog-buttons");
+winnerContainer.appendChild(buttonsContainer);
+const playAgainButton = document.createElement("button");
+playAgainButton.classList.toggle("play-again-button");
+playAgainButton.textContent = "Play Again";
+const playAgainButtonContainer = document.createElement("div");
+playAgainButtonContainer.classList.toggle("play-again-button-container");
+playAgainButtonContainer.appendChild(playAgainButton);
+buttonsContainer.appendChild(playAgainButtonContainer);
+
+// show winner
+function renderWinner() {
+    const winnerId = getWinner();
+    if (winnerId) {
+        winnerText.textContent = `Winner: Player-${winnerId}`;
+        winnerContainerDialog.showModal();
+    }
+}
+
 container.appendChild(gameboardContainer);
 
 // event listeners
@@ -141,6 +170,7 @@ gameboardContainer.addEventListener("click", (event) => {
         changeTurn();
         changeTurnRender();
         renderBoards();
+        renderWinner();
     }
 });
 

@@ -8,17 +8,16 @@
     --gameboard-cell-bg: #2059ff;
     --gameboard-cell-hover-lightness: 70;
     --bg: #3a5a40;
+    --accent: #ffb800;
+    --primary: #d36135;
+    --secondary: #9c3848;
+    --text: #ece4b7;
 }
 
 body {
     background: var(--bg);
+    color: var(--text);
     padding: 10px 40px;
-}
-
-.container {
-    display: grid;
-    place-items: center;
-    gap: 10px;
     font-family:
         system-ui,
         -apple-system,
@@ -31,6 +30,12 @@ body {
         "Open Sans",
         "Helvetica Neue",
         sans-serif;
+}
+
+.container {
+    display: grid;
+    place-items: center;
+    gap: 10px;
     font-weight: bold;
     color: #dad7cd;
 }
@@ -95,4 +100,41 @@ body {
 
 .cell.occupied.hit {
     background: #ff0000;
+}
+
+.winner-container-dialog {
+    margin: auto;
+    background: none;
+    outline: none;
+    border: 2px solid var(--accent);
+    border-radius: 20px;
+    background: var(--secondary);
+    padding: 20px 80px;
+}
+
+.winner-container {
+    display: grid;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--accent);
+}
+
+.dialog-buttons {
+    display: grid;
+    place-content: center;
+}
+
+button {
+    outline: none;
+    border: 2px solid var(--accent);
+    border-radius: 4px;
+    padding: 5px 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: var(--primary);
+    color: var(--text);
+}
+
+::backdrop {
+    backdrop-filter: blur(1px);
 }
