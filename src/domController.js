@@ -56,14 +56,10 @@ function renderGameBoard(playerId, gameboard, node) {
             if (gameboard.trackingGrid[i][j]) cell.classList.toggle("hit");
 
             cell.addEventListener("click", () => {
-                if (
-                    gameboard.gameboard[i][j] &&
-                    getTurn() !== playerId &&
-                    !gameboard.trackingGrid[i][j]
-                ) {
+                if (getTurn() !== playerId && !gameboard.trackingGrid[i][j]) {
                     gameboard.receiveAttack([i, j]);
+                    changeTurn();
                 }
-                changeTurn();
             });
         }
     }
@@ -136,7 +132,8 @@ gameboardContainer.addEventListener("click", (event) => {
     // when player two gets attacked, it attacks player one
     if (
         event.target.closest(".player-two-gameboard") &&
-        event.target.classList.contains("cell")
+        event.target.classList.contains("cell") &&
+        !event.target.classList.contains("hit")
     ) {
         computerAttack(playerOne);
         changeTurn();
