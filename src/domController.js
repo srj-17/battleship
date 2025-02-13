@@ -59,6 +59,7 @@ function renderGameBoard(playerId, gameboard, node) {
                 if (getTurn() !== playerId && !gameboard.trackingGrid[i][j]) {
                     gameboard.receiveAttack([i, j]);
                     changeTurn();
+                    console.log("from cell", getTurn());
                 }
             });
         }
@@ -137,6 +138,7 @@ gameboardContainer.addEventListener("click", (event) => {
     ) {
         computerAttack(playerOne);
         changeTurn();
+        changeTurnRender();
         renderBoards();
     }
 });
