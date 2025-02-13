@@ -122,13 +122,39 @@ function renderGameBoard(playerId, gameboard, node) {
 }
 
 function renderBoards() {
-    // remove the previous render of the gameboards
+    // remove the previous render of the gameboards and coordinates
+    // for player one
+    const playerOneHCoordinates = playerOneGameboardContainer.querySelector(
+        ".horizontal-coordinates",
+    );
+    if (playerOneHCoordinates)
+        playerOneGameboardContainer.removeChild(playerOneHCoordinates);
+
+    const playerOneVCoordinates = playerOneGameboardContainer.querySelector(
+        ".vertical-coordinates",
+    );
+    if (playerOneVCoordinates)
+        playerOneGameboardContainer.removeChild(playerOneVCoordinates);
+
     const prevPlayerOneGameboard = playerOneGameboardContainer.querySelector(
         ".player-one-gameboard",
     );
-    if (prevPlayerOneGameboard) {
+    if (prevPlayerOneGameboard)
         playerOneGameboardContainer.removeChild(prevPlayerOneGameboard);
-    }
+
+    // for player two
+    const playerTwoHCoordinates = playerTwoGameboardContainer.querySelector(
+        ".horizontal-coordinates",
+    );
+
+    if (playerTwoHCoordinates)
+        playerTwoGameboardContainer.removeChild(playerTwoHCoordinates);
+
+    const playerTwoVCoordinates = playerTwoGameboardContainer.querySelector(
+        ".vertical-coordinates",
+    );
+    if (playerTwoVCoordinates)
+        playerTwoGameboardContainer.removeChild(playerTwoVCoordinates);
 
     const prevPlayerTwoGameboard = playerTwoGameboardContainer.querySelector(
         ".player-two-gameboard",
