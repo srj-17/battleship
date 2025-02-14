@@ -2,8 +2,8 @@ import { changeTurn, getTurn } from "./driver.js";
 import { playerOne, playerTwo, playerOneId, playerTwoId } from "./driver.js";
 import { attack as computerAttack } from "./driver.js";
 import { getWinner } from "./driver.js";
-import { isGameboardInitialized } from "./driver.js";
-import { areValidCoordinates } from "./driver.js";
+import { isGameboardInitialized, initializeGameboard } from "./driver.js";
+import { changeShipPlaceMents } from "./player.js";
 
 const body = document.querySelector("body");
 
@@ -137,84 +137,50 @@ function renderStartBoard(node) {
         "Hello! First let's configure your gameboard before starting.";
     configContainer.appendChild(configHeader);
 
-    const configOptionsContainer = document.createElement("div");
-    configOptionsContainer.classList.toggle("config-options-container");
-    node.appendChild(configOptionsContainer);
+    // button that cycles through different configurations for player 1
+    const configToggler = document.createElement("div");
+    configToggler.classList.toggle("config-toggler");
+    configContainer.appendChild(configToggler);
 
-    const configForm = document.createElement("form");
-    configForm.classList.toggle("config-form");
-    configForm.action = "./index.html";
-    configOptionsContainer.appendChild(configForm);
+    const leftConfig = document.createElement("div");
+    leftConfig.classList.toggle("left-config");
+    configToggler.appendChild(leftConfig);
 
-    const ships = playerOne.gameboard.ships;
-    // for each ship
-    for (const ship in ships) {
-        // create an input container under which
-        const inputContainer = document.createElement("div");
-        inputContainer.classList.toggle("input-container");
-        inputContainer.textContent = `${ship.toUpperCase()}`;
-        configForm.appendChild(inputContainer);
+    const leftConfigButton = document.createElement("button");
+    leftConfigButton.classList.toggle("left-config-button");
+    leftConfigButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/></svg>`;
+    leftConfig.appendChild(leftConfigButton);
 
-        // create input for x coordinate
-        const inputContainerX = document.createElement("div");
-        inputContainerX.classList.toggle("input-container-x");
-        inputContainerX.classList.toggle(`${ship}-x`);
-        inputContainer.appendChild(inputContainerX);
+    const selectConfig = document.createElement("div");
+    selectConfig.classList.toggle("select-config");
+    configToggler.appendChild(selectConfig);
 
-        const inputLabelX = document.createElement("label");
-        inputLabelX.setAttribute("for", `${ship}-x`);
-        inputLabelX.textContent = "x: ";
-        inputContainerX.appendChild(inputLabelX);
+    const selectConfigButton = document.createElement("button");
+    selectConfigButton.classList.toggle("select-config-button");
+    selectConfigButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>`;
+    selectConfig.appendChild(selectConfigButton);
 
-        const inputX = document.createElement("input");
-        inputX.id = `${ship}-x`;
-        inputX.classList.toggle("input-x");
-        inputX.setAttribute("type", "number");
-        inputX.setAttribute("min", 1);
-        inputX.setAttribute("max", 10);
-        inputX.setAttribute("required", true);
-        inputContainerX.appendChild(inputX);
+    const rightConfig = document.createElement("div");
+    rightConfig.classList.toggle("right-config");
+    configToggler.appendChild(rightConfig);
 
-        // create input for y coordinate
-        const inputContainerY = document.createElement("div");
-        inputContainerY.classList.toggle("input-container-y");
-        inputContainerY.classList.toggle(`${ship}-y`);
-        inputContainer.appendChild(inputContainerY);
+    const rightConfigButton = document.createElement("button");
+    rightConfigButton.classList.toggle("right-config-button");
+    rightConfigButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/></svg>`;
+    rightConfig.appendChild(rightConfigButton);
 
-        const inputLabelY = document.createElement("label");
-        inputLabelY.setAttribute("for", `${ship}-y`);
-        inputLabelY.textContent = "y: ";
-        inputContainerY.appendChild(inputLabelY);
-
-        const inputY = document.createElement("input");
-        inputY.id = `${ship}-y`;
-        inputY.classList.toggle("input-y");
-        inputY.pattern = "[A-J]";
-        inputY.setAttribute("required", true);
-        inputContainerY.appendChild(inputY);
-    }
-
-    const startGameButton = document.createElement("button");
-    startGameButton.classList.toggle("start-game-button");
-    startGameButton.textContent = "Start Game";
-    configForm.appendChild(startGameButton);
-
-    const errorMsg = document.createElement("div");
-    errorMsg.classList.toggle("error-message");
-    configForm.appendChild(errorMsg);
-
-    startGameButton.addEventListener("click", (event) => {
-        errorMsg.textContent = "";
-        event.preventDefault();
-        if (configForm.checkValidity()) {
-            if (!areValidCoordinates(configForm)) {
-                console.log("this ran");
-                errorMsg.textContent = "Please Use legal coordinates";
-            }
-        } else {
-            errorMsg.textContent =
-                "Please fill appropriate x and y coordinates to start the game.";
-        }
+    // configure the buttons
+    leftConfigButton.addEventListener("click", () => {
+        changeShipPlaceMents(-1);
+        renderBoards();
+    });
+    rightConfigButton.addEventListener("click", () => {
+        changeShipPlaceMents(1);
+        renderBoards();
+    });
+    selectConfigButton.addEventListener("click", () => {
+        initializeGameboard();
+        renderBoards();
     });
 }
 
@@ -258,6 +224,12 @@ function renderBoards() {
     );
     if (prevPlayerTwoGameboard) {
         playerTwoGameboardContainer.removeChild(prevPlayerTwoGameboard);
+    }
+
+    const prevStartBoard =
+        playerTwoGameboardContainer.querySelector(".config-container");
+    if (prevStartBoard) {
+        playerTwoGameboardContainer.removeChild(prevStartBoard);
     }
 
     // add new renders

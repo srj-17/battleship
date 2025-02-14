@@ -44,22 +44,13 @@ function getWinner(playerOne = players.real, playerTwo = players.computer) {
     return false;
 }
 
-function isGameboardInitialized(player) {
-    const gameboard = player.gameboard.getGameBoard();
-    const SIZE = gameboard.length;
-    for (let i = 0; i < SIZE; i++) {
-        for (let j = 0; j < SIZE; j++) {
-            // gameboard is initialized even if only one of
-            // its coordinates has a ship
-            // TODO: or should I make it so that gameboard is only initialized
-            // only when 5 + 4 + 3 + 3 + 2 = 17 cells are initialized?
-            if (gameboard[i][j]) {
-                return true;
-            }
-        }
-    }
+let gameboardInitialized = false;
+function isGameboardInitialized() {
+    return gameboardInitialized;
+}
 
-    return false;
+function initializeGameboard() {
+    gameboardInitialized = true;
 }
 
 function areDuplicates(array) {
@@ -95,4 +86,5 @@ export {
     isGameboardInitialized,
     areValidCoordinates,
     areDuplicates,
+    initializeGameboard,
 };

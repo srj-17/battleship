@@ -158,6 +158,8 @@ button {
     font-weight: bold;
     background: var(--primary);
     color: var(--text);
+
+    display: grid;
 }
 
 ::backdrop {
@@ -174,4 +176,11 @@ input:valid {
 
 .error-message {
     color: var(--primary);
+}
+
+.config-toggler {
+    display: grid;
+    grid-auto-flow: column;
+    place-content: center;
+    gap: 8px;
 }
