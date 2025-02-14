@@ -1,4 +1,9 @@
-import { changeTurn, getTurn } from "./driver.js";
+import {
+    changeTurn,
+    getTurn,
+    haltGameboard,
+    resetGameboards,
+} from "./driver.js";
 import { playerOne, playerTwo, playerOneId, playerTwoId } from "./driver.js";
 import { attack as computerAttack } from "./driver.js";
 import { getWinner } from "./driver.js";
@@ -298,6 +303,13 @@ const playAgainButtonContainer = document.createElement("div");
 playAgainButtonContainer.classList.toggle("play-again-button-container");
 playAgainButtonContainer.appendChild(playAgainButton);
 buttonsContainer.appendChild(playAgainButtonContainer);
+
+playAgainButton.addEventListener("click", () => {
+    winnerContainerDialog.close();
+    haltGameboard();
+    resetGameboards();
+    renderBoards();
+});
 
 // show winner
 function renderWinner() {

@@ -53,6 +53,26 @@ function initializeGameboard() {
     gameboardInitialized = true;
 }
 
+function haltGameboard() {
+    gameboardInitialized = false;
+}
+
+// resetting gameboard is just resetting its tracking grid
+function resetGameboard(player) {
+    const trackingGrid = player.gameboard.trackingGrid;
+    const SIZE = 10;
+    for (let i = 0; i < SIZE; i++) {
+        for (let j = 0; j < SIZE; j++) {
+            trackingGrid[i][j] = false;
+        }
+    }
+}
+
+function resetGameboards() {
+    resetGameboard(playerOne);
+    resetGameboard(playerTwo);
+}
+
 function areDuplicates(array) {
     for (const element of array) {
         const arrWithoutElem = array.toSpliced(array.indexOf(element), 1);
@@ -87,4 +107,6 @@ export {
     areValidCoordinates,
     areDuplicates,
     initializeGameboard,
+    haltGameboard,
+    resetGameboards,
 };
