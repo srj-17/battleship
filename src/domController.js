@@ -2,6 +2,8 @@ import { changeTurn, getTurn } from "./driver.js";
 import { playerOne, playerTwo, playerOneId, playerTwoId } from "./driver.js";
 import { attack as computerAttack } from "./driver.js";
 import { getWinner } from "./driver.js";
+import { isGameboardInitialized } from "./driver.js";
+import { areValidCoordinates } from "./driver.js";
 
 const body = document.querySelector("body");
 
@@ -121,6 +123,101 @@ function renderGameBoard(playerId, gameboard, node) {
     }
 }
 
+function renderStartBoard(node) {
+    // remove everything under the node
+    node.innerHTML = "";
+
+    const configContainer = document.createElement("div");
+    configContainer.classList.toggle("config-container");
+    node.appendChild(configContainer);
+
+    const configHeader = document.createElement("div");
+    configHeader.classList.toggle("config-header");
+    configHeader.textContent =
+        "Hello! First let's configure your gameboard before starting.";
+    configContainer.appendChild(configHeader);
+
+    const configOptionsContainer = document.createElement("div");
+    configOptionsContainer.classList.toggle("config-options-container");
+    node.appendChild(configOptionsContainer);
+
+    const configForm = document.createElement("form");
+    configForm.classList.toggle("config-form");
+    configForm.action = "./index.html";
+    configOptionsContainer.appendChild(configForm);
+
+    const ships = playerOne.gameboard.ships;
+    // for each ship
+    for (const ship in ships) {
+        // create an input container under which
+        const inputContainer = document.createElement("div");
+        inputContainer.classList.toggle("input-container");
+        inputContainer.textContent = `${ship.toUpperCase()}`;
+        configForm.appendChild(inputContainer);
+
+        // create input for x coordinate
+        const inputContainerX = document.createElement("div");
+        inputContainerX.classList.toggle("input-container-x");
+        inputContainerX.classList.toggle(`${ship}-x`);
+        inputContainer.appendChild(inputContainerX);
+
+        const inputLabelX = document.createElement("label");
+        inputLabelX.setAttribute("for", `${ship}-x`);
+        inputLabelX.textContent = "x: ";
+        inputContainerX.appendChild(inputLabelX);
+
+        const inputX = document.createElement("input");
+        inputX.id = `${ship}-x`;
+        inputX.classList.toggle("input-x");
+        inputX.setAttribute("type", "number");
+        inputX.setAttribute("min", 1);
+        inputX.setAttribute("max", 10);
+        inputX.setAttribute("required", true);
+        inputContainerX.appendChild(inputX);
+
+        // create input for y coordinate
+        const inputContainerY = document.createElement("div");
+        inputContainerY.classList.toggle("input-container-y");
+        inputContainerY.classList.toggle(`${ship}-y`);
+        inputContainer.appendChild(inputContainerY);
+
+        const inputLabelY = document.createElement("label");
+        inputLabelY.setAttribute("for", `${ship}-y`);
+        inputLabelY.textContent = "y: ";
+        inputContainerY.appendChild(inputLabelY);
+
+        const inputY = document.createElement("input");
+        inputY.id = `${ship}-y`;
+        inputY.classList.toggle("input-y");
+        inputY.pattern = "[A-J]";
+        inputY.setAttribute("required", true);
+        inputContainerY.appendChild(inputY);
+    }
+
+    const startGameButton = document.createElement("button");
+    startGameButton.classList.toggle("start-game-button");
+    startGameButton.textContent = "Start Game";
+    configForm.appendChild(startGameButton);
+
+    const errorMsg = document.createElement("div");
+    errorMsg.classList.toggle("error-message");
+    configForm.appendChild(errorMsg);
+
+    startGameButton.addEventListener("click", (event) => {
+        errorMsg.textContent = "";
+        event.preventDefault();
+        if (configForm.checkValidity()) {
+            if (!areValidCoordinates(configForm)) {
+                console.log("this ran");
+                errorMsg.textContent = "Please Use legal coordinates";
+            }
+        } else {
+            errorMsg.textContent =
+                "Please fill appropriate x and y coordinates to start the game.";
+        }
+    });
+}
+
 function renderBoards() {
     // remove the previous render of the gameboards and coordinates
     // for player one
@@ -184,7 +281,11 @@ function renderBoards() {
     // render real player's gameboard under the playerOneGameboard node
     renderGameBoard(playerOneId, playerOne.gameboard, playerOneGameboard);
 
-    renderGameBoard(playerTwoId, playerTwo.gameboard, playerTwoGameboard);
+    if (isGameboardInitialized(playerOne)) {
+        renderGameBoard(playerTwoId, playerTwo.gameboard, playerTwoGameboard);
+    } else {
+        renderStartBoard(playerTwoGameboardContainer);
+    }
 
     // add the turn class to gameboard who's current turn it is
     if (getTurn() === playerOneId) {

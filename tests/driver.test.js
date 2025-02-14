@@ -1,4 +1,5 @@
 import { getWinner } from "../src/driver.js";
+import { areDuplicates } from "../src/driver.js";
 import { Player } from "../src/player.js";
 
 test("getWinner returns false if there's no winner", () => {
@@ -18,7 +19,10 @@ test("getWinner returns the winner if there's winner", () => {
     playerOneMock.gameboard.placeShip("cruiser", [5, 5]);
     playerOneMock.gameboard.placeShip("submarine", [4, 2]);
     playerOneMock.gameboard.placeShip("destroyer", [6, 7], "vertical");
-    console.log(playerOneMock.gameboard.trackingGrid);
 
     expect(getWinner(playerOneMock)).toEqual(2);
+});
+
+test("areDuplicates works as expected", () => {
+    expect(areDuplicates([1, 1, 2, 3])).toBe(true);
 });

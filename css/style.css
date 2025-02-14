@@ -163,3 +163,15 @@ button {
 ::backdrop {
     backdrop-filter: blur(1px);
 }
+
+input:invalid {
+    border: 2px solid red;
+}
+
+input:valid {
+    border: 2px solid green;
+}
+
+.error-message {
+    color: var(--primary);
+}
