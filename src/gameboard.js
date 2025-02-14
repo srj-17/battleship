@@ -94,7 +94,7 @@ class Gameboard {
         const startYCoordinate = startCoordinates[1];
         if (orientation === "horizontal") {
             const shipLength = this.ships[ship].length;
-            if (startXCoordinate + shipLength < this.size) {
+            if (startXCoordinate + shipLength - 1 < this.size) {
                 // check if there's already a ship in those coordinates
                 // if yes, return
                 for (let i = startXCoordinate; i <= shipLength; i++) {
