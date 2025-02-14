@@ -94,7 +94,7 @@ function changeShipPlaceMents(amount) {
                     orientation: "vertical",
                 },
                 cruiser: {
-                    coordinates: [6, 0],
+                    coordinates: [7, 0],
                     orientation: "vertical",
                 },
                 submarine: {
@@ -103,6 +103,52 @@ function changeShipPlaceMents(amount) {
                 },
                 destroyer: {
                     coordinates: [1, 0],
+                    orientation: "horizontal",
+                },
+            },
+        },
+        {
+            computer: {
+                carrier: {
+                    coordinates: [7, 0],
+                    orientation: "vertical",
+                },
+                battleship: {
+                    coordinates: [1, 1],
+                    orientation: "vertical",
+                },
+                cruiser: {
+                    coordinates: [9, 1],
+                    orientation: "vertical",
+                },
+                submarine: {
+                    coordinates: [3, 5],
+                    orientation: "horizontal",
+                },
+                destroyer: {
+                    coordinates: [1, 8],
+                    orientation: "horizontal",
+                },
+            },
+            real: {
+                carrier: {
+                    coordinates: [0, 5],
+                    orientation: "horizontal",
+                },
+                battleship: {
+                    coordinates: [3, 0],
+                    orientation: "vertical",
+                },
+                cruiser: {
+                    coordinates: [7, 3],
+                    orientation: "horizontal",
+                },
+                submarine: {
+                    coordinates: [6, 5],
+                    orientation: "vertical",
+                },
+                destroyer: {
+                    coordinates: [0, 0],
                     orientation: "horizontal",
                 },
             },
