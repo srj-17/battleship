@@ -18,7 +18,7 @@
 body {
     background: var(--bg);
     color: var(--text);
-    padding: 10px 40px;
+    padding: 10px 10px;
     font-family:
         system-ui,
         -apple-system,
@@ -187,4 +187,8 @@ input:valid {
     grid-auto-flow: column;
     place-content: center;
     gap: 8px;
+}
+
+.config-header {
+    text-align: center;
 }
