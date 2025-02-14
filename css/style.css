@@ -127,6 +127,10 @@ body {
     background: #ff0000;
 }
 
+.cell.hit {
+    background: hsl(from var(--gameboard-cell-bg) h s 90);
+}
+
 .winner-container-dialog {
     margin: auto;
     background: none;
